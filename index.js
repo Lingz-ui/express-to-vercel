@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
 
 app.get('/users', (req, res) => {
 	axios.get('https://jsonplaceholder.typicode.com/users').then(response => {
-		return response.data;
+		res.json(response.data)
 	})
 })
 
