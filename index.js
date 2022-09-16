@@ -1,14 +1,17 @@
 const express = require('express');
 const app = express();
-const path = require('path');
-const axios = require('axios')
+const swaggerJSDoc = require('swagger-jsdoc');
+const routes = require('./routes');
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swaggerdoc.json');
+const options = { customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.14.0/swagger-ui.min.css'};
 
 app.use(express.static('public'))
-
-app.get('/', (req, res) => {
-    res.sendFile('index.html', {root: path.join(__dirname, 'public')});
-})
-
+app.use('/api', routes.router);
+app.use('/public', express.static('public'));
+app.use('/', swaggerUi.serve);
+app.get('/', swaggerUi.setup(swaggerDocument, options));
 app.listen(process.env.PORT || 3000);
 
 module.exports = app;
